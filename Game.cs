@@ -74,11 +74,11 @@ namespace HelloWorld
             //Equip item based on input value
             if (input == '1')
             {
-                player.EquipItem(_longSword);
+                player.AddItemToInventory(_longSword, 0);
             }
             else if (input == '2')
             {
-                player.EquipItem(_dagger);
+                player.AddItemToInventory(_dagger, 0);
             }
         }
 
@@ -86,7 +86,7 @@ namespace HelloWorld
         {
             Console.WriteLine("What is your name?");
             string name = Console.ReadLine();
-            Player player = new Player(name, 100, 10);
+            Player player = new Player(name, 100, 10, 5);
             SelectItem(player);
             return player;
         }
@@ -122,7 +122,7 @@ namespace HelloWorld
                 }
                 else
                 {
-                    Console.WriteLine("NO!!!!!");
+                    Console.WriteLine("NO!");
                 }
 
                 GetInput(out input, "Attack", "NO", "Your turn Player 2");
@@ -133,17 +133,17 @@ namespace HelloWorld
                 }
                 else
                 {
-                    Console.WriteLine("NO!!!!!");
+                    Console.WriteLine("NO!");
                 }
                 Console.Clear();
             }
             if (_player1.GetIsAlive())
             {
-                Console.WriteLine("Player 1 wins!!1!1!!11!11?");
+                Console.WriteLine("Player 1 wins!?");
             }
             else
             {
-                Console.WriteLine("Player 2 wins??????????");
+                Console.WriteLine("Player 2 wins?");
             }
             ClearScreen();
             _gameOver = true;
