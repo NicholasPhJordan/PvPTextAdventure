@@ -12,6 +12,7 @@ namespace HelloWorld
     struct Item
     {
         public int statBoost;
+        public string name;
     }
 
 
@@ -22,6 +23,10 @@ namespace HelloWorld
         private Player _player2;
         private Item _longSword;
         private Item _dagger;
+        private Item _bow;
+        private Item _crossbow;
+        private Item _cherrybomb;
+        private Item _mace;
 
         //Run the game
         public void Run()
@@ -40,7 +45,17 @@ namespace HelloWorld
         public void InitializeItems()
         {
             _longSword.statBoost = 15;
+            _longSword.name = "Long Sword";
             _dagger.statBoost = 10;
+            _dagger.name = "Dagger";
+            _bow.statBoost = 12;
+            _bow.name = "Bow";
+            _crossbow.statBoost = 34;
+            _crossbow.name = "Cross Bow";
+            _cherrybomb.statBoost = 24;
+            _cherrybomb.name = "Cherry Bomb";
+            _mace.statBoost = 25;
+            _mace.name = "Mace";
         }
 
         //Displays two options to the player. Outputs the choice of the two options
@@ -65,38 +80,97 @@ namespace HelloWorld
             }
         }
 
-        //Equip items to both players in the beginning of the game
-        public void SelectItem(Player player)
+        public void GetInput(out char input, string option1, string option2, string option3, string query)
         {
+            //Print description to console
+            Console.WriteLine(query);
+            //print options to console
+            Console.WriteLine("1." + option1);
+            Console.WriteLine("2." + option2);
+            Console.WriteLine("3." + option3);
+            Console.Write("> ");
+
+            input = ' ';
+            //loop until valid input is received
+            while (input != '1' && input != '2' && input !='3')
+            {
+                input = Console.ReadKey().KeyChar;
+                if (input != '1' && input != '2' && input != '3')
+                {
+                    Console.WriteLine("Invalid Input");
+                }
+            }
+        }
+
+        //Equip items to both players in the beginning of the game
+        public void SelectLoadout(Player player)
+        {
+            Console.Clear();
+            Console.WriteLine("Loadout 1: ");
+            Console.WriteLine(_longSword.name);
+            Console.WriteLine(_dagger.name);
+            Console.WriteLine(_bow.name);
+
+            Console.WriteLine("\nLoadout 2: ");
+            Console.WriteLine(_crossbow.name);
+            Console.WriteLine(_cherrybomb.name);
+            Console.WriteLine(_mace.name);
             //Get input for player one
             char input;
-            GetInput(out input, "Longsword", "Dagger", "Welcome! Please choose a weapon.");
+            GetInput(out input, "Loadout 1", "Loadout 2", "Welcome! Please choose a loadout.");
             //Equip item based on input value
             if (input == '1')
             {
                 player.AddItemToInventory(_longSword, 0);
+                player.AddItemToInventory(_dagger, 1);
+                player.AddItemToInventory(_bow, 2);
+                Console.WriteLine();
             }
             else if (input == '2')
             {
-                player.AddItemToInventory(_dagger, 0);
+                player.AddItemToInventory(_crossbow, 0);
+                player.AddItemToInventory(_cherrybomb, 1);
+                player.AddItemToInventory(_mace, 2);
+                Console.WriteLine();
             }
         }
 
         public Player CreateCharacter()
         {
             Console.WriteLine("What is your name?");
+            Console.Write("> ");
             string name = Console.ReadLine();
             Player player = new Player(name, 100, 10, 5);
-            SelectItem(player);
+            SelectLoadout(player);
             return player;
         }
 
         public void ClearScreen()
         {
-            Console.WriteLine("Press any key to continue");
+            Console.WriteLine("\nPress any key to continue");
             Console.Write("> ");
             Console.ReadKey();
             Console.Clear();
+        }
+
+        public void SwitchWeapon(Player player)
+        {
+            Item[] inventory = player.GetInventory();
+
+            char input;
+            GetInput(out input, inventory[0].name, inventory[1].name, inventory[2].name, "Choose your weapon!");
+            switch (input)
+            {
+                case '1':
+                    player.EquipItem(0);
+                    break;
+                case '2':
+                    player.EquipItem(1);
+                    break;
+                case '3':
+                    player.EquipItem(2);
+                    break;
+            }
         }
 
         public void StartBattle()
@@ -109,12 +183,13 @@ namespace HelloWorld
                 //print player stats to console
                 Console.WriteLine("Player1");
                 _player1.PrintStats();
+                Console.WriteLine();
                 Console.WriteLine("Player2");
                 _player2.PrintStats();
                 //Player 1 turn start
                 //Get player input
                 char input;
-                GetInput(out input, "Attack", "NO", "Your turn Player 1");
+                GetInput(out input, "Attack", "Change Weapon", "Your turn Player 1");
 
                 if (input == '1')
                 {
@@ -122,10 +197,10 @@ namespace HelloWorld
                 }
                 else
                 {
-                    Console.WriteLine("NO!");
+                    SwitchWeapon(_player1);
                 }
 
-                GetInput(out input, "Attack", "NO", "Your turn Player 2");
+                GetInput(out input, "Attack", "Change Weapon", "Your turn Player 2");
 
                 if (input == '1')
                 {
@@ -133,7 +208,7 @@ namespace HelloWorld
                 }
                 else
                 {
-                    Console.WriteLine("NO!");
+                    SwitchWeapon(_player2);
                 }
                 Console.Clear();
             }
