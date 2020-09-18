@@ -105,7 +105,6 @@ namespace HelloWorld
         //Equip items to both players in the beginning of the game
         public void SelectLoadout(Player player)
         {
-            Console.Clear();
             Console.WriteLine("Loadout 1: ");
             Console.WriteLine(_longSword.name);
             Console.WriteLine(_dagger.name);
@@ -124,14 +123,12 @@ namespace HelloWorld
                 player.AddItemToInventory(_longSword, 0);
                 player.AddItemToInventory(_dagger, 1);
                 player.AddItemToInventory(_bow, 2);
-                Console.WriteLine();
             }
             else if (input == '2')
             {
                 player.AddItemToInventory(_crossbow, 0);
                 player.AddItemToInventory(_cherrybomb, 1);
                 player.AddItemToInventory(_mace, 2);
-                Console.WriteLine();
             }
         }
 
@@ -140,8 +137,9 @@ namespace HelloWorld
             Console.WriteLine("What is your name?");
             Console.Write("> ");
             string name = Console.ReadLine();
-            Player player = new Player(name, 100, 10, 5);
+            Player player = new Player(name, 100, 10, 3);
             SelectLoadout(player);
+            ClearScreen();
             return player;
         }
 
@@ -158,17 +156,32 @@ namespace HelloWorld
             Item[] inventory = player.GetInventory();
 
             char input;
-            GetInput(out input, inventory[0].name, inventory[1].name, inventory[2].name, "Choose your weapon!");
+            //print out all of the options
+            for(int i = 0; i < inventory.Length; i++)
+            {
+                Console.WriteLine("\n" + (i+1) + ". " + inventory[i].name + "\n Damage: " + inventory[i].statBoost);
+            }
+            input = Console.ReadKey().KeyChar;
             switch (input)
             {
                 case '1':
                     player.EquipItem(0);
+                    Console.WriteLine("You equiped " + inventory[0].name);
+                    Console.WriteLine("Base damage increased by " + inventory[0].statBoost);
                     break;
                 case '2':
                     player.EquipItem(1);
+                    Console.WriteLine("You equiped " + inventory[1].name);
+                    Console.WriteLine("Base damage increased by " + inventory[1].statBoost);
                     break;
                 case '3':
                     player.EquipItem(2);
+                    Console.WriteLine("You equiped " + inventory[2].name);
+                    Console.WriteLine("Base damage increased by " + inventory[2].statBoost);
+                    break;
+                default:
+                    player.UnequipItem();
+                    Console.WriteLine("You accidently dropped your weapon! \nUnfortunate :(");
                     break;
             }
         }
