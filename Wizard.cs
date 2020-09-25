@@ -19,7 +19,7 @@ namespace HelloWorld
             _mana = manaVal;
         }
 
-        public override void Attack(Character enemy)
+        public override float Attack(Character enemy)
         {
             if(_mana >= 4)
             {

@@ -21,6 +21,8 @@ namespace HelloWorld
         private bool _gameOver = false;
         private Player _player1;
         private Player _player2;
+        private Character _player1Partner;
+        private Character _player2Partner;
         private Item _longSword;
         private Item _dagger;
         private Item _bow;
@@ -261,6 +263,8 @@ namespace HelloWorld
         public void Start()
         {
             InitializeItems();
+            _player1Partner = new Wizard(120, "Wizard Lizard", 20, 100);
+            _player2Partner = new Wizard(120, "Wizard Lizard 101", 20, 100);
         }
 
         //Repeated until the game ends

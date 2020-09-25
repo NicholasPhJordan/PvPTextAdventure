@@ -57,10 +57,11 @@ namespace HelloWorld
             _currentWeapon = _hands;
         }
 
-        public override void Attack(Character enemy)
+        public override float Attack(Character enemy)
         {
             float totalDamage = _damage + _currentWeapon.statBoost;
             enemy.TakeDamage(totalDamage);
+            return;
         }
     }
 }
