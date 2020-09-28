@@ -160,6 +160,21 @@ namespace HelloWorld
             reader.Close();
         }
 
+        public void OpenMainMenu()
+        {
+            char input;
+            GetInput(out input, "Create new character", "Load Character", "What do you want to do?");
+            if (input == '2')
+            {
+                _player1 = new Player();
+                _player2 = new Player();
+                Load();
+                return;
+            }
+            _player1 = CreateCharacter();
+            _player2 = CreateCharacter();
+        }
+
         public Player CreateCharacter()
         {
             Console.WriteLine("What is your name?");
@@ -244,24 +259,32 @@ namespace HelloWorld
                 //Player 1 turn start
                 //Get player input
                 char input;
-                GetInput(out input, "Attack", "Change Weapon", "Your turn Player 1");
+                GetInput(out input, "Attack", "Change Weapon", "Save Game", "Your turn Player 1");
 
                 if (input == '1')
                 {
                     Console.WriteLine();
                     _player1.Attack(_player2);
                 }
+                if (input == '2')
+                {
+                    Save();
+                }
                 else
                 {
                     SwitchWeapons(_player1);
                 }
 
-                GetInput(out input, "Attack", "Change Weapon", "Your turn Player 2");
+                GetInput(out input, "Attack", "Change Weapon", "Save Game", "Your turn Player 2");
 
                 if (input == '1')
                 {
                     Console.WriteLine();
                     _player2.Attack(_player1);
+                }
+                if (input == '2')
+                {
+                    Save();
                 }
                 else
                 {
@@ -286,15 +309,15 @@ namespace HelloWorld
         public void Start()
         {
             InitializeItems();
-            _player1Partner = new Wizard(120, "Wizard Lizard", 20, 100);
-            _player2Partner = new Wizard(120, "Wizard Lizard 101", 20, 100);
+            _player1Partner = new Wizard(120, "Wizard Lizard", 5, 100);
+            _player2Partner = new Wizard(120, "Wizard Lizard 101", 5, 100);
+            Load();
         }
 
         //Repeated until the game ends
         public void Update()
         {
-            _player1 = CreateCharacter();
-            _player2 = CreateCharacter();
+            OpenMainMenu();
             StartBattle();
         }
 

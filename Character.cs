@@ -53,14 +53,14 @@ namespace HelloWorld
         {
             //Creaate variables to store loaded data
             string name = reader.ReadLine();
-            float damage = 0;
             float health = 0;
+            float damage = 0;
             //chescks to see if loading successful
-            if (float.TryParse(reader.ReadLine(), out damage) == false)
+            if (float.TryParse(reader.ReadLine(), out health) == false)
             {
                 return false;
             }
-            if (float.TryParse(reader.ReadLine(), out health) == false)
+            if (float.TryParse(reader.ReadLine(), out damage) == false)
             {
                 return false;
             }

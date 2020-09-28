@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace HelloWorld
 {
@@ -61,7 +62,7 @@ namespace HelloWorld
         {
             float totalDamage = _damage + _currentWeapon.statBoost;
             enemy.TakeDamage(totalDamage);
-            return;
+            return enemy.TakeDamage(totalDamage);
         }
     }
 }
