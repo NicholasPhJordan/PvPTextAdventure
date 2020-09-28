@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace HelloWorld
 {
@@ -135,6 +136,28 @@ namespace HelloWorld
                 player.AddItemToInventory(_mace, 2);
                 Console.WriteLine();
             }
+        }
+
+        public void Save()
+        {
+            //create new stream writer
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+            //call save for both instances for player
+            _player1.Save(writer);
+            _player2.Save(writer);
+            //cloase writer
+            writer.Close();
+        }
+
+        public void Load()
+        {
+            //create a new stream reader
+            StreamReader reader = new StreamReader("SaveData.txt");
+            //call load for each instance of player to load data
+            _player1.Load(reader);
+            _player2.Load(reader);
+            //cloase reader
+            reader.Close();
         }
 
         public Player CreateCharacter()
